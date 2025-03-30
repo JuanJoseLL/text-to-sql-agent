@@ -27,16 +27,19 @@ export async function message(messages: StoredMessage[]) {
     },
     {
       name: "get_from_db",
-      description: `Get data from a database, the database has the following schema:
+      description: `Use this tool ONLY when you need to query the database to answer a user's question about customers or orders.
+      Input MUST be a valid SQLite SQL query string.
+      The tool executes the provided SQL query against a database with the following schema and returns the results as a JSON string:
   
       ${orderTable}
       ${customerTable}  
+      Do NOT use this tool if the user is just chatting or asking for the SQL query itself. Use it to FETCH DATA.
       `,
       schema: z.object({
         sql: z
           .string()
           .describe(
-            "SQL query to get data from a SQL database. Always put quotes around the field and table arguments."
+            "The **complete** and valid SQLite SQL query required to fetch the data needed to answer the user. Always enclose table and column names in double quotes (e.g., SELECT column FROM table)."
           ),
       }),
     }
